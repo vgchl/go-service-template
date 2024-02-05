@@ -9,4 +9,4 @@ plugins:
 managed:
   enabled: true
   go_package_prefix:
-    default: mind-svc/proto/gen/go
+    default: mind-service/proto/gen/go

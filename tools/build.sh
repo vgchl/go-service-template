@@ -22,7 +22,7 @@ function main {
 
 function clean {
   ui_header "Clean"
-  rm -f service
+  rm -f mind_service
   rm -rf ./proto/gen
   ui_done
 }
@@ -42,14 +42,18 @@ function build_go {
 
 function build_proto {
     ui_header "Build Protobuf"
-    echo "Formatting..."
-    (cd proto && $buf format --write)
-    echo "Linting..."
-    (cd proto && $buf lint)
-    echo "Generating source code..."
-    (cd proto && $buf generate)
-    echo "Checking breaking changes..."
-    (cd proto && $buf breaking --against ".git#branch=main")
+    (
+      # shellcheck disable=SC2164
+      cd proto
+      echo "Formatting..."
+      $buf format --write
+      echo "Linting..."
+      $buf lint
+      echo "Generating source code..."
+      $buf generate
+      echo "Checking breaking changes..."
+      $buf breaking --against "../.git#branch=main,subdir=proto"
+    )
     echo "Testing..."
     $go test ./proto/...
     ui_done
@@ -82,11 +86,12 @@ function ui_done {
 }
 
 function ui_trapped_error {
-  echo -e "${COLOR_F_GREEN}Failed${COLOR_RESET}"
+  echo -e "${COLOR_F_RED}Failed${COLOR_RESET}"
   exit 1
 }
 
 COLOR_F_GREEN=$(tput setaf 2)
+COLOR_F_RED=$(tput setaf 1)
 COLOR_RESET=$(tput sgr0)
 
 main

@@ -1,4 +1,4 @@
-module mind-svc
+module mind-service
 
 go 1.21
 

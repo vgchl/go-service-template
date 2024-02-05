@@ -5,8 +5,8 @@ import (
 	"github.com/rs/zerolog/log"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
-	"mind-svc/proto/gen/go/mind/v1/mindv1connect"
-	"mind-svc/service"
+	"mind-service/proto/gen/go/mind/v1/mindv1connect"
+	"mind-service/service"
 	"net/http"
 )
 

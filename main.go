@@ -1,7 +1,7 @@
 package main
 
 import (
-	"mind-svc/app"
+	"mind-service/app"
 )
 
 func main() {

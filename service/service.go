@@ -3,7 +3,7 @@ package service
 import (
 	"connectrpc.com/connect"
 	"context"
-	v1 "mind-svc/proto/gen/go/mind/v1"
+	v1 "mind-service/proto/gen/go/mind/v1"
 )
 
 type Service struct {
