@@ -31,12 +31,14 @@ function build {
     build_proto
     ui_separator
     build_go
+#    ui_separator
+#    build_docker
 }
 
 function build_go {
     ui_header "Build Go"
     $go mod tidy
-    $go build -o service
+    $go build
     ui_done
 }
 
@@ -57,6 +59,12 @@ function build_proto {
     echo "Testing..."
     $go test ./proto/...
     ui_done
+}
+
+function build_docker {
+  ui_header "Build Docker"
+  docker build -t mind-service .
+  ui_done
 }
 
 function test {
