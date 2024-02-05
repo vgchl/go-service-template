@@ -1,4 +1,4 @@
-package service
+package app
 
 import (
 	"github.com/knadh/koanf/providers/env"
@@ -8,12 +8,15 @@ import (
 )
 
 type Config struct {
-	Env string `config:"env"`
+	Env        string `config:"env"`
+	LogJson    bool   `config:"log.json"`
+	ServerPort int    `config:"server.port"`
 }
 
 func defaults() Config {
 	return Config{
-		Env: "lcl",
+		Env:        "local",
+		ServerPort: 8080,
 	}
 }
 

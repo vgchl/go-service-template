@@ -1,15 +1,15 @@
 package service
 
+import (
+	"connectrpc.com/connect"
+	"context"
+	v1 "mind-svc/proto/gen/go/mind/v1"
+)
+
 type Service struct {
-	config Config
 }
 
-func New(config Config) Service {
-	s := Service{config: config}
-
-	return s
-}
-
-func (s Service) Start() {
-
+func (h Service) Greet(ctx context.Context, req *connect.Request[v1.GreetRequest]) (*connect.Response[v1.GreetResponse], error) {
+	//TODO implement me
+	panic("implement me")
 }

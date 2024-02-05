@@ -1,0 +1,4 @@
+
+
+build:
+	@./tools/build.sh

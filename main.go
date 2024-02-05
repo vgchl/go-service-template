@@ -1,10 +1,10 @@
 package main
 
 import (
-	"mind-svc/service"
+	"mind-svc/app"
 )
 
 func main() {
-	svc := service.New(service.LoadConfig())
-	svc.Start()
+	a := app.New(app.LoadConfig())
+	a.Start()
 }
