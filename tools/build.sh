@@ -38,7 +38,7 @@ function build {
 function build_go {
     ui_header "Build Go"
     $go mod tidy
-    version=$(git describe --tags --abbrev=0 --match="v[0-9]*.[0-9]*.[0-9]*" --exclude="v*[^0-9.]*" || echo "v0.0.0")
+    version=$(git describe --tags --match="v[0-9]*.[0-9]*.[0-9]*" --exclude="v*[^0-9.]*" || echo "v0.0.0")
     $go build -ldflags="-X 'mind-service/app.Version=${version}'"
     ui_done
 }
