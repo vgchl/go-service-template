@@ -19,6 +19,41 @@ import (
 
 var Version = "unknown" // overwritten by build pipeline
 
+// App contains all dependencies required to run the application.
+// Dependencies are initialized using a memoized, lazy loaded function. This reduces the need to pass around variables,
+// build dependencies in a strict order, and most notably; it allows dependencies to be replaced individually in tests.
+//
+// The pattern goes:
+//
+// 1: Define a field on App that will store the builder:
+//
+//	type App struct {
+//		MyDependency func() some.MyDependency
+//	}
+//
+// 2: Assign the builder to the field. Usually you'll want the same instance to be returned every time. This can be
+// done by wrapping the builder with the memoize() helper.
+//
+//	func New(c Config) *App {
+//		a := &App{Config: c}
+//		...
+//		a.MyDependency = memoize(a.newMyDependency)
+//		...
+//	}
+//
+// 3: Define the builder method. The naming convention is `new<FieldName>()`.
+// The method cannot take parameters. It can access config or other dependencies through the `a *App` receiver.
+// When accessing other dependencies, use the memoized field, not the builder method directly.
+//
+//	func (a *App) newMyDependency() some.MyDependency {
+//		return some.MyDependency{
+//			OtherDependency: a.OtherDependency(),
+//		}
+//	}
+//
+// 4: Retrieve the dependency where required.
+//
+//	d := a.MyDependency()
 type App struct {
 	Config Config
 	Logger zerolog.Logger
