@@ -3,6 +3,7 @@ package service_test
 import (
 	"context"
 	"mind-service/app"
+	"mind-service/app/apptest"
 	mindv1 "mind-service/proto/gen/go/mind/v1"
 	"mind-service/proto/gen/go/mind/v1/mindv1connect"
 	"net/http"
@@ -15,7 +16,7 @@ import (
 )
 
 func Test(t *testing.T) {
-	a := app.New(app.Config{})
+	a := app.New(apptest.Config())
 	a.Authenticator = func() func(string) bool {
 		return fakeAuthenticator
 	}

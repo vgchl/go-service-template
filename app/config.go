@@ -11,14 +11,15 @@ import (
 type Config struct {
 	Env        string `config:"env"`
 	LogJson    bool   `config:"log.json"`
+	LogLevel   string `config:"log.level"`
 	ServerPort string `config:"server.port"`
 	Secret     string `config:"secret" json:"-"`
 }
 
-func defaults() Config {
+func DefaultConfig() Config {
 	return Config{
-		Env:        "local",
 		ServerPort: "8080",
+		LogLevel:   "warn",
 	}
 }
 
@@ -26,7 +27,7 @@ func LoadConfig() Config {
 	var tag = "config"
 	var k = koanf.New(".")
 
-	err := k.Load(structs.Provider(defaults(), tag), nil)
+	err := k.Load(structs.Provider(DefaultConfig(), tag), nil)
 	if err != nil {
 		panic(err)
 	}

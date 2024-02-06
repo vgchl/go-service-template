@@ -1,12 +1,10 @@
 package app
 
 import (
-	"errors"
 	"mind-service/eventemitter"
 	"mind-service/proto/gen/go/mind/v1/mindv1connect"
 	"mind-service/service"
 	"mind-service/service/interceptors"
-	"net"
 	"net/http"
 
 	"connectrpc.com/connect"
@@ -20,13 +18,13 @@ import (
 var Version = "unknown" // overwritten by build pipeline
 
 type App struct {
-	Config         Config
-	Logger         zerolog.Logger
+	Config Config
+	Logger zerolog.Logger
+
 	Service        func() service.Service
 	ServiceHandler func() http.Handler
-	Server         func() *http.Server
-	Authenticator  func() func(string) bool
 	EventEmitter   func() eventemitter.EventEmitter
+	Authenticator  func() func(string) bool
 }
 
 func New(c Config) *App {
@@ -68,33 +66,17 @@ func (a *App) newAuthenticator() func(token string) bool {
 	}
 }
 
-func (a *App) Start() {
-	log.Info().
-		Str("version", Version).
-		Interface("config", a.Config).
-		Msg("Starting service")
-
-	err := http.ListenAndServe(net.JoinHostPort("0.0.0.0", a.Config.ServerPort), a.ServiceHandler())
-	if !errors.Is(err, http.ErrServerClosed) {
-		log.Error().Err(err).Msg("Failed to start server")
-	}
-}
-
 func (a *App) newLogger() zerolog.Logger {
 	if !a.Config.LogJson {
 		log.Logger = zerolog.New(zerolog.NewConsoleWriter()).With().Timestamp().Logger()
 	}
+
+	level, err := zerolog.ParseLevel(a.Config.LogLevel)
+	if err != nil {
+		log.Fatal().Err(err).Msg("Invalid log level configuration")
+	}
+	log.Logger = log.Logger.Level(level)
+
 	zerolog.DefaultContextLogger = &log.Logger
 	return log.Logger
-}
-
-func memoize[T any](f func() T) func() T {
-	var instance *T
-	return func() T {
-		if instance == nil {
-			i := f()
-			instance = &i
-		}
-		return *instance
-	}
 }
