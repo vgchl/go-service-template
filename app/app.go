@@ -32,7 +32,7 @@ type App struct {
 
 func New(c Config) *App {
 	a := &App{Config: c}
-	a.Logger = a.newLogger()
+	a.configureLogger()
 
 	a.Service = memoize(a.newService)
 	a.ServiceHandler = memoize(a.newServiceHandler)
@@ -77,9 +77,9 @@ func (a *App) newServer() *http.Server {
 	}
 }
 
-func (a *App) newLogger() zerolog.Logger {
+func (a *App) configureLogger() {
 	if !a.Config.LogJson {
-		log.Logger = zerolog.New(zerolog.NewConsoleWriter()).With().Timestamp().Logger()
+		log.Logger = log.Logger.Output(zerolog.NewConsoleWriter()).With().Timestamp().Logger()
 	}
 
 	level, err := zerolog.ParseLevel(a.Config.LogLevel)
@@ -90,6 +90,4 @@ func (a *App) newLogger() zerolog.Logger {
 
 	zerolog.DefaultContextLogger = &log.Logger
 	zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack
-
-	return log.Logger
 }

@@ -4,6 +4,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/rs/zerolog/log"
+
 	"github.com/knadh/koanf/providers/env"
 	"github.com/knadh/koanf/providers/structs"
 	"github.com/knadh/koanf/v2"
@@ -27,12 +29,14 @@ func DefaultConfig() Config {
 }
 
 func LoadConfig() Config {
+	const msg = "Failed to load application config"
+
 	var tag = "config"
 	var k = koanf.New(".")
 
 	err := k.Load(structs.Provider(DefaultConfig(), tag), nil)
 	if err != nil {
-		panic(err)
+		log.Fatal().Err(err).Msg(msg)
 	}
 
 	err = k.Load(env.Provider("MIND_", ".", func(s string) string {
@@ -40,13 +44,13 @@ func LoadConfig() Config {
 			strings.TrimPrefix(s, "MIND_")), "_", ".", -1)
 	}), nil)
 	if err != nil {
-		panic(err)
+		log.Fatal().Err(err).Msg(msg)
 	}
 
 	config := Config{}
 	err = k.UnmarshalWithConf("", &config, koanf.UnmarshalConf{Tag: tag})
 	if err != nil {
-		panic(err)
+		log.Fatal().Err(err).Msg(msg)
 	}
 
 	return config

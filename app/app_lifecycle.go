@@ -46,9 +46,8 @@ func (a *App) Start() {
 func (a *App) OnStop() {
 	r := recover()
 	if r != nil {
-		log.WithLevel(zerolog.PanicLevel).
+		log.Fatal().Stack().
 			Interface(zerolog.ErrorFieldName, r).
 			Msg("Application terminated due to panic")
 	}
-	os.Exit(1)
 }
