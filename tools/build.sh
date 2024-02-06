@@ -93,8 +93,8 @@ function task_build_docker {
 function task_lint {
   ui_header "Lint"
   lint="golangci-lint"
-  if ! command -v "golangci-ling" &> /dev/null; then
-    lint="docker compose run --rm golangci-lint"
+  if ! command -v "golangci-lint" &> /dev/null; then
+    lint="docker compose run --no-TTY --rm golangci-lint"
   fi
   $lint run
   ui_done

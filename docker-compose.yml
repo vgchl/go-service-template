@@ -23,7 +23,6 @@ services:
       - go_build_cache:/root/.cache/go-build/
     working_dir: /work
     entrypoint: golangci-lint
-    tty: true
 
 volumes:
   go_mod_cache:
