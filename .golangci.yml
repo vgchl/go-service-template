@@ -1,0 +1,22 @@
+linters:
+  enable:
+    - gofmt
+    - goimports
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - bodyclose
+    - asciicheck
+    - cyclop
+    - errname
+    - funlen
+    - godox
+    - importas
+    - testifylint
+    - testpackage
+    - whitespace
+    - wrapcheck
+    - zerologlint

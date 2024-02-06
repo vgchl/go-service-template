@@ -1,11 +1,12 @@
 package service
 
 import (
-	"connectrpc.com/connect"
 	"context"
 	"fmt"
-	"github.com/rs/zerolog/log"
 	"mind-service/eventemitter"
+
+	"connectrpc.com/connect"
+	"github.com/rs/zerolog/log"
 
 	v1 "mind-service/proto/gen/go/mind/v1"
 )

@@ -15,6 +15,16 @@ services:
     working_dir: /work/proto
     entrypoint: buf
 
+  golangci-lint:
+    image: golangci/golangci-lint:v1.55.2
+    volumes:
+      - .:/work
+      - go_mod_cache:/go/pkg/mod
+      - go_build_cache:/root/.cache/go-build/
+    working_dir: /work
+    entrypoint: golangci-lint
+    tty: true
+
 volumes:
   go_mod_cache:
   go_build_cache:

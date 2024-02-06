@@ -1,16 +1,17 @@
 package service_test
 
 import (
-	"connectrpc.com/connect"
 	"context"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"mind-service/app"
-	"mind-service/proto/gen/go/mind/v1"
+	mindv1 "mind-service/proto/gen/go/mind/v1"
 	"mind-service/proto/gen/go/mind/v1/mindv1connect"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"connectrpc.com/connect"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func Test(t *testing.T) {

@@ -1,10 +1,11 @@
 package app
 
 import (
+	"strings"
+
 	"github.com/knadh/koanf/providers/env"
 	"github.com/knadh/koanf/providers/structs"
 	"github.com/knadh/koanf/v2"
-	"strings"
 )
 
 type Config struct {

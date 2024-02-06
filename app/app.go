@@ -3,14 +3,15 @@ package app
 import (
 	"errors"
 	"fmt"
-	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
-	"golang.org/x/net/http2"
-	"golang.org/x/net/http2/h2c"
 	"mind-service/eventemitter"
 	"mind-service/proto/gen/go/mind/v1/mindv1connect"
 	"mind-service/service"
 	"net/http"
+
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
 )
 
 var Version = "x" // overwritten by build pipeline
