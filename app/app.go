@@ -5,9 +5,11 @@ import (
 	"mind-service/proto/gen/go/mind/v1/mindv1connect"
 	"mind-service/service"
 	"mind-service/service/interceptors"
+	"net"
 	"net/http"
 
 	"connectrpc.com/connect"
+	"github.com/rs/zerolog/pkgerrors"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -23,6 +25,7 @@ type App struct {
 
 	Service        func() service.Service
 	ServiceHandler func() http.Handler
+	Server         func() *http.Server
 	EventEmitter   func() eventemitter.EventEmitter
 	Authenticator  func() func(string) bool
 }
@@ -33,6 +36,7 @@ func New(c Config) *App {
 
 	a.Service = memoize(a.newService)
 	a.ServiceHandler = memoize(a.newServiceHandler)
+	a.Server = memoize(a.newServer)
 	a.EventEmitter = memoize(a.newEventEmitter)
 	a.Authenticator = memoize(a.newAuthenticator)
 
@@ -66,6 +70,13 @@ func (a *App) newAuthenticator() func(token string) bool {
 	}
 }
 
+func (a *App) newServer() *http.Server {
+	return &http.Server{
+		Addr:    net.JoinHostPort("0.0.0.0", a.Config.ServerPort),
+		Handler: a.ServiceHandler(),
+	}
+}
+
 func (a *App) newLogger() zerolog.Logger {
 	if !a.Config.LogJson {
 		log.Logger = zerolog.New(zerolog.NewConsoleWriter()).With().Timestamp().Logger()
@@ -78,5 +89,7 @@ func (a *App) newLogger() zerolog.Logger {
 	log.Logger = log.Logger.Level(level)
 
 	zerolog.DefaultContextLogger = &log.Logger
+	zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack
+
 	return log.Logger
 }

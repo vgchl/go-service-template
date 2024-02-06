@@ -6,5 +6,6 @@ import (
 
 func main() {
 	a := app.New(app.LoadConfig())
+	defer a.OnStop()
 	a.Start()
 }

@@ -2,6 +2,7 @@ package app
 
 import (
 	"strings"
+	"time"
 
 	"github.com/knadh/koanf/providers/env"
 	"github.com/knadh/koanf/providers/structs"
@@ -9,17 +10,19 @@ import (
 )
 
 type Config struct {
-	Env        string `config:"env"`
-	LogJson    bool   `config:"log.json"`
-	LogLevel   string `config:"log.level"`
-	ServerPort string `config:"server.port"`
-	Secret     string `config:"secret" json:"-"`
+	Env                string        `config:"env"`
+	LogJson            bool          `config:"log.json"`
+	LogLevel           string        `config:"log.level"`
+	ServerPort         string        `config:"server.port"`
+	Secret             string        `config:"secret" json:"-"`
+	TerminationTimeout time.Duration `config:"termination.timeout"`
 }
 
 func DefaultConfig() Config {
 	return Config{
-		ServerPort: "8080",
-		LogLevel:   "warn",
+		ServerPort:         "8080",
+		LogLevel:           "info",
+		TerminationTimeout: 30 * time.Second,
 	}
 }
 
