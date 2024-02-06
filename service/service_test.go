@@ -15,8 +15,11 @@ import (
 )
 
 func Test(t *testing.T) {
-	svc := app.NewService(app.App{})
-	srv := httptest.NewServer(app.NewServiceHandler(svc))
+	a := app.New(app.Config{})
+	a.Authenticator = func() func(string) bool {
+		return fakeAuthenticator
+	}
+	srv := httptest.NewServer(a.ServiceHandler())
 
 	client := mindv1connect.NewGreetServiceClient(http.DefaultClient, srv.URL)
 	res, err := client.Greet(
@@ -26,4 +29,8 @@ func Test(t *testing.T) {
 
 	require.NoError(t, err)
 	assert.Equal(t, "Hello, Jane!", res.Msg.Greeting)
+}
+
+func fakeAuthenticator(_ string) bool {
+	return true
 }

@@ -37,6 +37,9 @@ function main {
     if has_task "lint" $tasks; then
       task_lint; ui_separator
     fi
+    if has_task "lint-fix" $tasks; then
+      task_lint --fix; ui_separator
+    fi
     if has_task "test" $tasks; then
       task_test; ui_separator
     fi
@@ -96,7 +99,8 @@ function task_lint {
   if ! command -v "golangci-lint" &> /dev/null; then
     lint="docker compose run --no-TTY --rm golangci-lint"
   fi
-  $lint run
+  # shellcheck disable=SC2086
+  $lint run $1
   ui_done
 }
 
