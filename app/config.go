@@ -11,6 +11,7 @@ type Config struct {
 	Env        string `config:"env"`
 	LogJson    bool   `config:"log.json"`
 	ServerPort int    `config:"server.port"`
+	Secret     string `config:"secret" json:"-"`
 }
 
 func defaults() Config {
