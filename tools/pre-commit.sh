@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./build.sh lint
+make lint

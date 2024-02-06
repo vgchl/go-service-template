@@ -1,16 +1,30 @@
+SHELL=/usr/bin/env bash
 
+build: install clean build_proto build_go build_docker lint test
 
-build:
-	@./tools/build.sh
+clean:
+	@. tools/build.sh; task_clean
 
-run:
-	@go run .
+build_proto:
+	@. tools/build.sh; task_build_proto
+
+build_go:
+	@. tools/build.sh; task_build_go
+
+build_docker:
+	@. tools/build.sh; task_build_docker
 
 lint:
-	@./tools/build.sh lint
+	@. tools/build.sh; task_lint
 
 lint-fix:
-	@./tools/build.sh lint-fix
+	@. tools/build.sh; task_lint --fix
 
-install-githooks:
+test:
+	@. tools/build.sh; task_test
+
+run:
+	@. tools/build.sh; task_run
+
+install:
 	@ln -sf ../../tools/pre-commit.sh .git/hooks/pre-commit
