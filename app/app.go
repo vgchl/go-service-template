@@ -21,7 +21,8 @@ var Version = "unknown" // overwritten by build pipeline
 
 // App contains all dependencies required to run the application.
 // Dependencies are initialized using a memoized, lazy loaded function. This reduces the need to pass around variables,
-// build dependencies in a strict order, and most notably; it allows dependencies to be replaced individually in tests.
+// build dependencies in a strict order, and most notably; it allows individual dependencies to be replaced by mocks
+// in tests.
 //
 // The pattern goes:
 //
