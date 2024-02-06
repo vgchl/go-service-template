@@ -13,4 +13,4 @@ lint-fix:
 	@./tools/build.sh lint --fix
 
 install-githooks:
-	ln -s tools/pre-commit.sh .git/hooks/pre-commit
+	@ln -sf ../../tools/pre-commit.sh .git/hooks/pre-commit
