@@ -1,0 +1,22 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        required: true
+        description: The version of the service to deploy
+      environment:
+        type: choice
+        required: true
+        options:
+          - stg
+          - prd
+        description: The environment to deploy the service to
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "${{ inputs.version }} - ${{ inputs.environment }}"
