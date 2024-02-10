@@ -7,13 +7,14 @@ on:
         description: Version
         type: string
         required: true
+        default: latest
       environment:
         description: Environment
         type: choice
         required: true
         options:
-          - stg
           - prd
+          - stg
 
 jobs:
   deployment:
